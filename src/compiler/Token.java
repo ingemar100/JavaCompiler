@@ -5,10 +5,6 @@
  */
 package compiler;
 
-/**
- *
- * @author Ingemar
- */
 public class Token {
     private int posInLijst;
     private int regelnummer;
@@ -35,6 +31,14 @@ public class Token {
     
     public Soort getType(){
         return type;
+    }
+
+    public int getPosInLijst() {
+        return posInLijst;
+    }
+
+    public int getPartner() {
+        return partner;
     }
     
 }

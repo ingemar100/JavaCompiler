@@ -5,16 +5,15 @@
  */
 package compiler;
 
-/**
- *
- * @author Ingemar
- */
+import java.util.Stack;
+
 public class Compiler {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         Tokenizer t = new Tokenizer();
         // TODO:
         //

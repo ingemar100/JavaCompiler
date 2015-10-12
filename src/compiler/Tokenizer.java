@@ -12,22 +12,20 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Ingemar
- */
 public class Tokenizer {
+
     HashMap<String, Token.Soort> d = new HashMap();
-    
+
     public Tokenizer() {
         fillDictionary();
         parse();
     }
-    
-    public void fillDictionary(){
+
+    public void fillDictionary() {
 //        d.put("a", IDENTIFIER);
 //        d.put("1", Token.tokenSoort.NUMBER);
         d.put("==", Token.Soort.EQUALS);
@@ -62,27 +60,34 @@ public class Tokenizer {
             int regelnummer = 1;
             int posInLijst = 1;
             int level = 1;
+                Stack<String> partners = new Stack<>();
 
             while (inFile1.hasNext()) {
                 //parse line
                 regel = inFile1.next();
                 regel = regel.trim();
-                if (regel.isEmpty()){
+                if (regel.isEmpty()) {
                     continue;
                 }
 
                 String[] values = regel.split("\\s");
-
+                
                 for (int i = 0; i < values.length; i++) {
-                if (regel.isEmpty()){
-                    break;
-                }
+                    String partner;
                     //veranderen naar regEx
                     Token.Soort soort = vindSoort(values[i]);
+                    System.out.println("Stack: " + partners);
                     if (values[i].equals("(") || values[i].equals("{") || values[i].equals("[") || values[i].equals("<")) {
                         level++;
-                    } else if (values[i].equals(")") || values[i].equals("}")|| values[i].equals("]") || values[i].equals(">")) {
+                        System.out.println(values[i]);
+//                        System.out.println(values[i]);
+                        partners.push("x");
+                        System.out.println("push " + posInLijst);
+                    } else if (values[i].equals(")") || values[i].equals("}") || values[i].equals("]") || values[i].equals(">")) {
                         level--;
+//                        System.out.println(values[i]);
+                        partner = partners.pop();
+                        System.out.println("pop " + partner);
                     }
                     Token t = new Token(posInLijst++, regelnummer, 1, soort, level, 0, values[i]);
                     temps.add(t);
@@ -93,23 +98,21 @@ public class Tokenizer {
             inFile1.close();
 
             for (Token t : temps) {
-                System.out.println(t.getType() + ": " + t.getValue());
+                System.out.println(t.getPosInLijst() + ": " + t.getType() + ": " + t.getValue() + " partner: " + t.getPartner());
             }
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Tokenizer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private Token.Soort vindSoort(String woord){
-        if (d.containsKey(woord)){
+
+    private Token.Soort vindSoort(String woord) {
+        if (d.containsKey(woord)) {
             return d.get(woord);
-        }
-        else {
-            if (woord.matches("^-?\\d+$")){
+        } else {
+            if (woord.matches("^-?\\d+$")) {
                 return Token.Soort.NUMBER;
-            }
-            else {
+            } else {
                 return Token.Soort.IDENTIFIER;
             }
         }
