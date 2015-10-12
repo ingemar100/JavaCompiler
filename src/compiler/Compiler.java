@@ -13,8 +13,11 @@ public class Compiler {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        try {
         Tokenizer t = new Tokenizer();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         // TODO:
         //
         //Taaldefinitie

@@ -8,7 +8,7 @@ package compiler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Dictionary;
+import compiler.HarrisonFordException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -20,7 +20,7 @@ public class Tokenizer {
 
     HashMap<String, Token.Soort> d = new HashMap();
 
-    public Tokenizer() {
+    public Tokenizer() throws HarrisonFordException {
         fillDictionary();
         parse();
     }
@@ -46,7 +46,7 @@ public class Tokenizer {
         d.put("=", Token.Soort.ASSIGN);
     }
 
-    public void parse() {
+    public void parse() throws HarrisonFordException {
         System.out.println("Working Directory: " + System.getProperty("user.dir"));
 
         Scanner inFile1;
@@ -60,10 +60,11 @@ public class Tokenizer {
             int regelnummer = 1;
             int posInLijst = 1;
             int level = 1;
-                Stack<String> partners = new Stack<>();
+            Stack<Integer> partners = new Stack<>();
 
             while (inFile1.hasNext()) {
                 //parse line
+                boolean endOfLine = false;
                 regel = inFile1.next();
                 regel = regel.trim();
                 if (regel.isEmpty()) {
@@ -71,26 +72,32 @@ public class Tokenizer {
                 }
 
                 String[] values = regel.split("\\s");
-                
+
                 for (int i = 0; i < values.length; i++) {
-                    String partner;
+                    if (endOfLine){
+                        throw new HarrisonFordException("Reached end of line");
+                    }
+                    
+                    int partner = 0;
                     //veranderen naar regEx
                     Token.Soort soort = vindSoort(values[i]);
                     System.out.println("Stack: " + partners);
                     if (values[i].equals("(") || values[i].equals("{") || values[i].equals("[") || values[i].equals("<")) {
                         level++;
-                        System.out.println(values[i]);
-//                        System.out.println(values[i]);
-                        partners.push("x");
-                        System.out.println("push " + posInLijst);
+                        partners.push(posInLijst);
                     } else if (values[i].equals(")") || values[i].equals("}") || values[i].equals("]") || values[i].equals(">")) {
                         level--;
-//                        System.out.println(values[i]);
                         partner = partners.pop();
-                        System.out.println("pop " + partner);
+                        
+                        Token partnerToken = temps.get(partner - 1);
+                        partnerToken.setPartner(posInLijst);
                     }
-                    Token t = new Token(posInLijst++, regelnummer, 1, soort, level, 0, values[i]);
+                    Token t = new Token(posInLijst++, regelnummer, 1, soort, level, partner, values[i]);
                     temps.add(t);
+                    
+                    if (t.getType() == Token.Soort.SEMICOLON){
+                        endOfLine = true;
+                    }
                 }
 
                 regelnummer++;

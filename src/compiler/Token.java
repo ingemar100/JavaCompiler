@@ -40,5 +40,9 @@ public class Token {
     public int getPartner() {
         return partner;
     }
+
+    public void setPartner(int partner) {
+        this.partner = partner;
+    }
     
 }
