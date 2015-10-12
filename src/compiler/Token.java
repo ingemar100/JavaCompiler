@@ -13,7 +13,7 @@ public class Token {
     private int level;
     private int partner;
     private String value;
-    public static enum Soort{ IDENTIFIER, EQUALS, NUMBER, SEMICOLON, WHILE, ELLIPSIS_OPEN, GREATER_EQUALS, SMALLER_EQUALS, GREATER, SMALLER, ELLIPSIS_CLOSE, BRACKETS_OPEN, BRACKETS_CLOSE, MINUS, PLUS, MULTIPLY, DIVIDE, ASSIGN };
+    public static enum Soort{ BRACKET_OPEN, BRACKET_CLOSE, IF, END_IF, END_WHILE, END_ELSE, END_FOR, ELSE, FOR, IDENTIFIER, EQUALS, NUMBER, SEMICOLON, WHILE, ELLIPSIS_OPEN, GREATER_EQUALS, SMALLER_EQUALS, GREATER, SMALLER, ELLIPSIS_CLOSE, BRACKETS_OPEN, BRACKETS_CLOSE, MINUS, PLUS, MULTIPLY, DIVIDE, ASSIGN };
 
     public Token(int posInLijst, int regelnummer, int posInRegel, Soort type, int level, int partner, String value) {
         this.posInLijst = posInLijst;
@@ -43,6 +43,18 @@ public class Token {
 
     public void setPartner(int partner) {
         this.partner = partner;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getRegelnummer() {
+        return regelnummer;
+    }
+
+    public int getPosInRegel() {
+        return posInRegel;
     }
     
 }
