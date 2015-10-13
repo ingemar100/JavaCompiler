@@ -3,19 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package compiler;
+package compiler.nodes;
 
 /**
  *
  * @author Ingemar
  */
-public class HarrisonFordException extends Exception{
+public class ConditionalJump extends Action {
     
-    public HarrisonFordException(){
-        
-    }
-    
-    public HarrisonFordException(String message){
-        super(message);
-    }
 }

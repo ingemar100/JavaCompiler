@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package compiler;
+package compiler.tokenizer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import compiler.HarrisonFordException;
+import compiler.tokenizer.HarrisonFordException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,9 +19,11 @@ import java.util.logging.Logger;
 
 public class Tokenizer {
 
-    HashMap<String, Token.Soort> dic = new HashMap();
-    HashSet<Token.Soort> openTokens = new HashSet();
-    HashSet<Token.Soort> closeTokens = new HashSet();
+    private HashMap<String, Token.Soort> dic = new HashMap();
+    private HashSet<Token.Soort> openTokens = new HashSet();
+    private HashSet<Token.Soort> closeTokens = new HashSet();
+    private int posInLijst = 1;
+    private List<Token> tokens;
 
     public Tokenizer() throws HarrisonFordException {
         fillDictionary();
@@ -87,11 +89,10 @@ public class Tokenizer {
         try {
             Scanner scanner = new Scanner(new File("file.txt"));
             inFile1 = scanner.useDelimiter("\\n");
-//            inFile1.
 
-            List<Token> temps = new ArrayList<Token>();
+            tokens = new ArrayList<Token>();
             int regelnummer = 1;
-            int posInLijst = 1;
+            posInLijst = 1;
             int level = 1;
             Stack<Integer> partners = new Stack<>();
 
@@ -108,10 +109,11 @@ public class Tokenizer {
 
                 for (int i = 0; i < values.length; i++) {
                     if (endOfLine) {
-                        throw new HarrisonFordException("Reached end of line");
+                        throw new HarrisonFordException("Reached end of line", getLastToken());
                     }
                     int partner = 0;
                     Token.Soort soort = vindSoort(values[i]);
+
                     int thisLevel = level;
                     if (levelPlus(soort)) {
                         level++;
@@ -121,29 +123,31 @@ public class Tokenizer {
                         thisLevel--;
                         partner = partners.pop();
 
-                        Token partnerToken = temps.get(partner - 1);
+                        Token partnerToken = tokens.get(partner - 1);
                         partnerToken.setPartner(posInLijst);
 
                     }
-                    Token t = new Token(posInLijst++, regelnummer, 1, soort, thisLevel, partner, values[i]);
-                    temps.add(t);
+                    Token t = new Token(posInLijst, regelnummer, 1, soort, thisLevel, partner, values[i]);
+                    tokens.add(t);
 
                     if (t.getType() == Token.Soort.SEMICOLON) {
                         endOfLine = true;
                     }
                     if (t.getType() == Token.Soort.ELSE) {
-                        Token vorig = temps.get(posInLijst - 3);
+                        Token vorig = getLastToken();
                         if (vorig.getType() != Token.Soort.END_IF) {
-                            throw new HarrisonFordException("Else without if");
+                            throw new HarrisonFordException("Else without if", t);
                         }
                     }
+                    
+                    posInLijst++;
                 }
 
                 regelnummer++;
             }
             inFile1.close();
 
-            printTokens(temps);
+            printTokens(tokens);
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Tokenizer.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,7 +156,17 @@ public class Tokenizer {
 
     private Token.Soort vindSoort(String woord) {
         if (dic.containsKey(woord)) {
-            return dic.get(woord);
+            Token.Soort soort = dic.get(woord);
+            
+            Token last = getLastToken();
+            System.out.println(last);
+            if (soort == Token.Soort.ELLIPSIS_OPEN && last != null && last.getType() == Token.Soort.IDENTIFIER) {
+            System.out.println(last);
+                last.setType(Token.Soort.FUNCTION);
+                System.out.println("poep");
+            }
+            
+            return soort;
         } else {
             if (woord.matches("^-?\\d+$")) {
                 return Token.Soort.NUMBER;
@@ -162,9 +176,19 @@ public class Tokenizer {
         }
     }
 
+    private Token getLastToken() {
+        try {
+        return tokens.get(posInLijst - 2);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            return null;
+        }
+    }
+
     private void printTokens(List<Token> temps) {
+        System.out.println();
         for (Token t : temps) {
-            System.out.println(t.getPosInLijst() + ": " + t.getType() + ": " + t.getValue() + " partner: " + t.getPartner() + " level: " + t.getLevel());
+            System.out.println(t.toString());
         }
     }
 

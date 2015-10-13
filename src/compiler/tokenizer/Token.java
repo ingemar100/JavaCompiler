@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package compiler;
+package compiler.tokenizer;
 
 public class Token {
     private int posInLijst;
@@ -13,7 +13,7 @@ public class Token {
     private int level;
     private int partner;
     private String value;
-    public static enum Soort{ BRACKET_OPEN, BRACKET_CLOSE, IF, END_IF, END_WHILE, END_ELSE, END_FOR, ELSE, FOR, IDENTIFIER, EQUALS, NUMBER, SEMICOLON, WHILE, ELLIPSIS_OPEN, GREATER_EQUALS, SMALLER_EQUALS, GREATER, SMALLER, ELLIPSIS_CLOSE, BRACKETS_OPEN, BRACKETS_CLOSE, MINUS, PLUS, MULTIPLY, DIVIDE, ASSIGN };
+    public static enum Soort{ FUNCTION, BRACKET_OPEN, BRACKET_CLOSE, IF, END_IF, END_WHILE, END_ELSE, END_FOR, ELSE, FOR, IDENTIFIER, EQUALS, NUMBER, SEMICOLON, WHILE, ELLIPSIS_OPEN, GREATER_EQUALS, SMALLER_EQUALS, GREATER, SMALLER, ELLIPSIS_CLOSE, BRACKETS_OPEN, BRACKETS_CLOSE, MINUS, PLUS, MULTIPLY, DIVIDE, ASSIGN };
 
     public Token(int posInLijst, int regelnummer, int posInRegel, Soort type, int level, int partner, String value) {
         this.posInLijst = posInLijst;
@@ -56,5 +56,12 @@ public class Token {
     public int getPosInRegel() {
         return posInRegel;
     }
+
+    public void setType(Soort type) {
+        this.type = type;
+    }
     
+    public String toString(){
+        return getPosInLijst() + ": " + getType() + ": " + getValue() + " partner: " + getPartner() + " level: " + getLevel();
+    }
 }
