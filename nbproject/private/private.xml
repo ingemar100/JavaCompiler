@@ -3,10 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/Tokenizer.java</file>
-            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/Compiler.java</file>
-            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/HarrisonFordException.java</file>
-            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/Token.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/util/AbrahamLinkedList.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileLValue.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/tokenizer/Tokenizer.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileIfGeneral.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/util/LLNode.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/main/Main.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileWhile.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileFunction.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/Compiler.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileOperator.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileCondition.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileIf.java</file>
+            <file>file:/C:/Users/Ingemar/Documents/NetBeansProjects/Compiler/src/compiler/compiler/CompileThing.java</file>
         </group>
     </open-files>
 </project-private>

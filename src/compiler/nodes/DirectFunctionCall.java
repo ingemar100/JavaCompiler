@@ -10,5 +10,15 @@ package compiler.nodes;
  * @author Ingemar
  */
 public class DirectFunctionCall extends AbstractFunctionCall{
+    private String actie;
+    private String waarde;
+
+    public DirectFunctionCall(String actie, String waarde) {
+        this.actie = actie;
+        this.waarde = waarde;
+    }
     
+    public String toString(){
+        return "DirectFunctionCall - actie: " + actie + ", waarde: " + waarde; 
+    }
 }

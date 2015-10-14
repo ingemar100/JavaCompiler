@@ -5,20 +5,35 @@ package compiler.main;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
+import compiler.compiler.CompiledBlock;
+import compiler.compiler.CompiledStatement;
+import compiler.compiler.CompilerFactory;
+import compiler.nodes.Action;
+import compiler.tokenizer.HarrisonFordException;
+import compiler.tokenizer.Token;
 import compiler.tokenizer.Tokenizer;
-import java.util.Stack;
+import compiler.util.AbrahamLinkedList;
+import compiler.util.LLNode;
+import java.util.LinkedList;
 
 public class Main {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try {
-        Tokenizer t = new Tokenizer();
-        } catch (Exception e){
+            Tokenizer t = new Tokenizer();
+            AbrahamLinkedList<Token> tokens = t.getTokens();
+
+            tokens.printAllNodes();
+
+            compile(tokens);
+
+            //bepaal welke actie ondernomen moet worden
+            //bepaal de grens in e token list tot waar de actie gedefinieerd is
+            //voer de actie uit
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // TODO:
@@ -55,6 +70,15 @@ public class Main {
 //         проц старт()
 //         вывод: "Привет мир!";
 //         кон
-            }
-    
+    }
+
+    private static void compile(AbrahamLinkedList<Token> tokens) throws Exception {
+
+        CompilerFactory factory = CompilerFactory.getInstance();
+        CompiledBlock block = new CompiledBlock();
+        block.compile(tokens.getFirst());
+
+        block.getCompiled().printAllNodes();
+    }
+
 }

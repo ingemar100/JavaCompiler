@@ -5,15 +5,14 @@
  */
 package compiler.compiler;
 
+import compiler.tokenizer.Token;
+
 /**
  *
  * @author Ingemar
  */
-public class CompileIfGeneral extends Compiler{
-
-    @Override
-    public void compile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+public class CompilerException extends Exception{
+    public CompilerException(String mess, Token t){
+        super("\n" + mess + "\nat line " + t.getRegelnummer() + " pos: " + t.getPosInRegel());
     }
-    
 }

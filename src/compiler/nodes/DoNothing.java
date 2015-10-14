@@ -10,5 +10,7 @@ package compiler.nodes;
  * @author Ingemar
  */
 public class DoNothing extends Action {
-    
+    public String toString(){
+        return "Doe niets";
+    }
 }

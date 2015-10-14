@@ -9,8 +9,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import compiler.tokenizer.HarrisonFordException;
+import compiler.util.AbrahamLinkedList;
+import compiler.util.LLNode;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
@@ -23,17 +26,19 @@ public class Tokenizer {
     private HashSet<Token.Soort> openTokens = new HashSet();
     private HashSet<Token.Soort> closeTokens = new HashSet();
     private int posInLijst = 1;
-    private List<Token> tokens;
+    private AbrahamLinkedList<Token> tokens;
+    private LLNode<Token> lastToken;
 
     public Tokenizer() throws HarrisonFordException {
         fillDictionary();
         parse();
     }
 
-    public void fillDictionary() {
+    private void fillDictionary() {
 //        d.put("a", IDENTIFIER);
 //        d.put("1", Token.tokenSoort.NUMBER);
         dic.put("==", Token.Soort.EQUALS);
+        dic.put("!=", Token.Soort.NOT_EQUALS);
         dic.put(";", Token.Soort.SEMICOLON);
         dic.put("while", Token.Soort.WHILE);
         dic.put("endwhile", Token.Soort.END_WHILE);
@@ -90,14 +95,15 @@ public class Tokenizer {
             Scanner scanner = new Scanner(new File("file.txt"));
             inFile1 = scanner.useDelimiter("\\n");
 
-            tokens = new ArrayList<Token>();
-            int regelnummer = 1;
+            tokens = new AbrahamLinkedList<Token>();
+            int regelnummer = 0;
             posInLijst = 1;
             int level = 1;
-            Stack<Integer> partners = new Stack<>();
+            Stack<Token> partners = new Stack<>();
 
             while (inFile1.hasNext()) {
                 //parse line
+                regelnummer++;
                 boolean endOfLine = false;
                 regel = inFile1.next();
                 regel = regel.trim();
@@ -109,45 +115,47 @@ public class Tokenizer {
 
                 for (int i = 0; i < values.length; i++) {
                     if (endOfLine) {
-                        throw new HarrisonFordException("Reached end of line", getLastToken());
+                        throw new HarrisonFordException("Reached end of line", lastToken.getValue());
                     }
-                    int partner = 0;
+                    Token partner = null;
                     Token.Soort soort = vindSoort(values[i]);
+                    Token t = null;
 
                     int thisLevel = level;
                     if (levelPlus(soort)) {
                         level++;
-                        partners.push(posInLijst);
+                        t = new Token(posInLijst, regelnummer, 1, soort, thisLevel, partner, values[i]);
+                        partners.push(t);
                     } else if (levelMin(soort)) {
                         level--;
                         thisLevel--;
                         partner = partners.pop();
+                        t = new Token(posInLijst, regelnummer, 1, soort, thisLevel, partner, values[i]);
+                        partner.setPartner(t);
 
-                        Token partnerToken = tokens.get(partner - 1);
-                        partnerToken.setPartner(posInLijst);
-
+                    } else {
+                        t = new Token(posInLijst, regelnummer, 1, soort, thisLevel, partner, values[i]);
                     }
-                    Token t = new Token(posInLijst, regelnummer, 1, soort, thisLevel, partner, values[i]);
-                    tokens.add(t);
+                    LLNode<Token> result = tokens.insertLast(t);
 
                     if (t.getType() == Token.Soort.SEMICOLON) {
                         endOfLine = true;
                     }
                     if (t.getType() == Token.Soort.ELSE) {
-                        Token vorig = getLastToken();
+                        Token vorig = lastToken.getValue();
                         if (vorig.getType() != Token.Soort.END_IF) {
                             throw new HarrisonFordException("Else without if", t);
+                        } else {
+                            //vorig is endif instead of if
+                            vorig.getPartner().setType(Token.Soort.IF_WITH_ELSE);
                         }
                     }
-                    
-                    posInLijst++;
-                }
 
-                regelnummer++;
+                    posInLijst++;
+                    lastToken = result;
+                }
             }
             inFile1.close();
-
-            printTokens(tokens);
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Tokenizer.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,15 +165,12 @@ public class Tokenizer {
     private Token.Soort vindSoort(String woord) {
         if (dic.containsKey(woord)) {
             Token.Soort soort = dic.get(woord);
-            
-            Token last = getLastToken();
-            System.out.println(last);
+
+            Token last = lastToken.getValue();
             if (soort == Token.Soort.ELLIPSIS_OPEN && last != null && last.getType() == Token.Soort.IDENTIFIER) {
-            System.out.println(last);
                 last.setType(Token.Soort.FUNCTION);
-                System.out.println("poep");
             }
-            
+
             return soort;
         } else {
             if (woord.matches("^-?\\d+$")) {
@@ -173,22 +178,6 @@ public class Tokenizer {
             } else {
                 return Token.Soort.IDENTIFIER;
             }
-        }
-    }
-
-    private Token getLastToken() {
-        try {
-        return tokens.get(posInLijst - 2);
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            return null;
-        }
-    }
-
-    private void printTokens(List<Token> temps) {
-        System.out.println();
-        for (Token t : temps) {
-            System.out.println(t.toString());
         }
     }
 
@@ -206,5 +195,9 @@ public class Tokenizer {
         } else {
             return false;
         }
+    }
+
+    public AbrahamLinkedList<Token> getTokens() {
+        return tokens;
     }
 }

@@ -5,10 +5,23 @@
  */
 package compiler.nodes;
 
+import compiler.util.LLNode;
+
 /**
  *
  * @author Ingemar
  */
 public class ConditionalJump extends Action {
+    private LLNode<Action> ifTrue;
+    private LLNode<Action> ifFalse;
     
+    public ConditionalJump(LLNode<Action> ifTrue, LLNode<Action> end) {
+        this.ifTrue = ifTrue;
+        this.ifFalse = end;
+    }
+    
+    @Override
+    public String toString(){
+        return "Conditional Jump - if true: go to " + ifTrue + " else: go to " + ifFalse;
+    }
 }

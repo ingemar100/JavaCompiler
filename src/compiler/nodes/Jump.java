@@ -5,10 +5,17 @@
  */
 package compiler.nodes;
 
+import compiler.util.LLNode;
+
 /**
  *
  * @author Ingemar
  */
 public class Jump extends Action {
+    private LLNode<Action> to;
+
+    public Jump(LLNode<Action> to) {
+        this.to = to;
+    }
     
 }

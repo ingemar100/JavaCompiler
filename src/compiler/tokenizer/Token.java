@@ -11,11 +11,11 @@ public class Token {
     private int posInRegel;
     private Soort type;
     private int level;
-    private int partner;
+    private Token partner;
     private String value;
-    public static enum Soort{ FUNCTION, BRACKET_OPEN, BRACKET_CLOSE, IF, END_IF, END_WHILE, END_ELSE, END_FOR, ELSE, FOR, IDENTIFIER, EQUALS, NUMBER, SEMICOLON, WHILE, ELLIPSIS_OPEN, GREATER_EQUALS, SMALLER_EQUALS, GREATER, SMALLER, ELLIPSIS_CLOSE, BRACKETS_OPEN, BRACKETS_CLOSE, MINUS, PLUS, MULTIPLY, DIVIDE, ASSIGN };
+    public static enum Soort{ NOT_EQUALS, FUNCTION, BRACKET_OPEN, BRACKET_CLOSE, IF, IF_WITH_ELSE, END_IF, END_WHILE, END_ELSE, END_FOR, ELSE, FOR, IDENTIFIER, EQUALS, NUMBER, SEMICOLON, WHILE, ELLIPSIS_OPEN, GREATER_EQUALS, SMALLER_EQUALS, GREATER, SMALLER, ELLIPSIS_CLOSE, BRACKETS_OPEN, BRACKETS_CLOSE, MINUS, PLUS, MULTIPLY, DIVIDE, ASSIGN };
 
-    public Token(int posInLijst, int regelnummer, int posInRegel, Soort type, int level, int partner, String value) {
+    public Token(int posInLijst, int regelnummer, int posInRegel, Soort type, int level, Token partner, String value) {
         this.posInLijst = posInLijst;
         this.regelnummer = regelnummer;
         this.posInRegel = posInRegel;
@@ -37,11 +37,11 @@ public class Token {
         return posInLijst;
     }
 
-    public int getPartner() {
+    public Token getPartner() {
         return partner;
     }
 
-    public void setPartner(int partner) {
+    public void setPartner(Token partner) {
         this.partner = partner;
     }
 
@@ -62,6 +62,7 @@ public class Token {
     }
     
     public String toString(){
-        return getPosInLijst() + ": " + getType() + ": " + getValue() + " partner: " + getPartner() + " level: " + getLevel();
+        String part = (partner == null) ? "" : partner.getPosInLijst() + "";
+        return getPosInLijst() + ": " + getType() + ": " + getValue() + " partner: " + part + " level: " + getLevel();
     }
 }
