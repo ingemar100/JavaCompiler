@@ -5,27 +5,43 @@
  */
 package compiler.nodes;
 
+import compiler.virtualmachine.NextNodeVisitor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Ingemar
  */
 public class FunctionCall extends AbstractFunctionCall{
     private String functionName;
-    private String arg1;
-    private String arg2;
+    private String[] args;
 
-    public FunctionCall(String name, String arg1, String arg2) {
+    public FunctionCall(String name, String[] args) {
         this.functionName = name;
-        this.arg1 = arg1;
-        this.arg2 = arg2;
+        this.args = args;
     }
     
-    public FunctionCall(String name, String arg){
-        this.functionName = name;
-        this.arg1 = arg;
-    }
-    
+    @Override
     public String toString(){
-        return "FunctionCall - functienaam: " + functionName + ", args: " + arg1 + "," + arg2;
+        String s = "FunctionCall - functienaam: " + functionName + ", args: ";
+        for (int i = 0; i < args.length; i++){
+            s += args[i] + ",";
+        }
+        return s;
+    }
+
+    @Override
+    public void accept(NextNodeVisitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public List<String> getParameters() {
+        List<String> l = new ArrayList();
+        l.add(functionName);
+        l.addAll(Arrays.asList(args));
+        return l;
     }
 }

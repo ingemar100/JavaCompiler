@@ -14,6 +14,7 @@ import compiler.tokenizer.Token;
 import compiler.tokenizer.Tokenizer;
 import compiler.util.AbrahamLinkedList;
 import compiler.util.LLNode;
+import compiler.virtualmachine.VirtualMachine;
 import java.util.LinkedList;
 
 public class Main {
@@ -25,10 +26,13 @@ public class Main {
         try {
             Tokenizer t = new Tokenizer();
             AbrahamLinkedList<Token> tokens = t.getTokens();
-
             tokens.printAllNodes();
 
-            compile(tokens);
+            AbrahamLinkedList<Action> actions = compile(tokens);
+            actions.printAllNodes();
+            
+            VirtualMachine vm = new VirtualMachine();
+            vm.Run(actions);
 
             //bepaal welke actie ondernomen moet worden
             //bepaal de grens in e token list tot waar de actie gedefinieerd is
@@ -72,13 +76,13 @@ public class Main {
 //         кон
     }
 
-    private static void compile(AbrahamLinkedList<Token> tokens) throws Exception {
+    private static AbrahamLinkedList<Action> compile(AbrahamLinkedList<Token> tokens) throws Exception {
 
         CompilerFactory factory = CompilerFactory.getInstance();
         CompiledBlock block = new CompiledBlock();
         block.compile(tokens.getFirst());
-
-        block.getCompiled().printAllNodes();
+        
+        return block.getCompiled();
     }
 
 }

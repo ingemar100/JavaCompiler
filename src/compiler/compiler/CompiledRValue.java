@@ -42,8 +42,17 @@ public class CompiledRValue extends CompiledStatement {
 
         switch (operatorToken.getType()) {
             case PLUS:
-                compiled.insertLast(new FunctionCall("Add", leftName, rightName));
-            // etc.
+                compiled.insertLast(new FunctionCall("Add", new String[]{leftName, rightName}));
+                break;
+            case MINUS:
+                compiled.insertLast(new FunctionCall("Subtract", new String[]{leftName, rightName}));
+                break;
+            case MULTIPLY:
+                compiled.insertLast(new FunctionCall("Multiply", new String[]{leftName, rightName}));
+                break;
+            case DIVIDE:
+                compiled.insertLast(new FunctionCall("Divide", new String[]{leftName, rightName}));
+                break;
             default:
                 break;
         }

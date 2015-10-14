@@ -5,10 +5,13 @@
  */
 package compiler.nodes;
 
+import java.util.List;
+
 /**
  *
  * @author Ingemar
  */
 public abstract class AbstractFunctionCall extends Action{
     
+    public abstract List<String> getParameters();
 }

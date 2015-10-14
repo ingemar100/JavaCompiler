@@ -52,22 +52,22 @@ public class CompiledCondition extends CompiledStatement {
 
         switch (operatorToken.getType()) {
             case EQUALS:
-                compiled.insertLast(new FunctionCall("AreEqual", leftName, rightName));
+                compiled.insertLast(new FunctionCall("AreEqual", new String[]{leftName, rightName}));
                 break;
             case NOT_EQUALS:
-                compiled.insertLast(new FunctionCall("AreNotEqual", leftName, rightName));
+                compiled.insertLast(new FunctionCall("AreNotEqual", new String[]{leftName, rightName}));
                 break;
             case SMALLER:
-                compiled.insertLast(new FunctionCall("IsSmaller", leftName, rightName));
+                compiled.insertLast(new FunctionCall("IsSmaller", new String[]{leftName, rightName}));
                 break;
             case SMALLER_EQUALS:
-                compiled.insertLast(new FunctionCall("IsSmallerOrEqual", leftName, rightName));
+                compiled.insertLast(new FunctionCall("IsSmallerOrEqual", new String[]{leftName, rightName}));
                 break;
             case GREATER:
-                compiled.insertLast(new FunctionCall("IsGreater", leftName, rightName));
+                compiled.insertLast(new FunctionCall("IsGreater", new String[]{leftName, rightName}));
                 break;
             case GREATER_EQUALS:
-                compiled.insertLast(new FunctionCall("IsGreaterOrEqual", leftName, rightName));
+                compiled.insertLast(new FunctionCall("IsGreaterOrEqual", new String[]{leftName, rightName}));
                 break;
             default:
                 break;

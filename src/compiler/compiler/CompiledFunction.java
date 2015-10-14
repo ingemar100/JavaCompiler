@@ -5,6 +5,7 @@
  */
 package compiler.compiler;
 
+import compiler.nodes.DirectFunctionCall;
 import compiler.nodes.FunctionCall;
 import compiler.tokenizer.Token;
 import compiler.util.LLNode;
@@ -21,11 +22,12 @@ public class CompiledFunction extends CompiledStatement {
         currentToken = currentToken.getNext(); //begin rvalue
         
         CompiledStatement argument = CompilerFactory.getInstance().createCompiledStatement(currentToken);
-        String varName = currentToken.getValue().getValue();
+        String varName = this.getNextUniqueId();
         currentToken = argument.compile(currentToken);
         
         compiled.insertLast(argument.compiled);
-        compiled.insertLast(new FunctionCall(functionName, varName));
+        compiled.insertLast(new DirectFunctionCall("ReturnToVariable", varName));
+        compiled.insertLast(new FunctionCall(functionName, new String[]{varName}));
         
         if (currentToken.getValue().getType() != Token.Soort.SEMICOLON){
             throw new CompilerException("Expected semicolon", currentToken.getValue());

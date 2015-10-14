@@ -17,23 +17,23 @@ public class CompilerFactory {
 
     private static CompilerFactory instance;
 
-    private ArrayList<CompiledStatement> _compilers;
+    private ArrayList<CompiledStatement> compilers;
 
     private CompilerFactory() {
-        _compilers = new ArrayList<>();
-        _compilers.add(new CompiledAssignment());
-        _compilers.add(new CompiledCondition());
-        _compilers.add(new CompiledConstant());
-        _compilers.add(new CompiledIf());
-        _compilers.add(new CompiledRValue());
-        _compilers.add(new CompiledWhile());
-        _compilers.add(new CompiledFunction());
-        _compilers.add(new CompiledIfElse());
-        _compilers.add(new CompiledVariable());
+        compilers = new ArrayList<>();
+        compilers.add(new CompiledAssignment());
+        compilers.add(new CompiledCondition());
+        compilers.add(new CompiledConstant());
+        compilers.add(new CompiledIf());
+        compilers.add(new CompiledRValue());
+        compilers.add(new CompiledWhile());
+        compilers.add(new CompiledFunction());
+        compilers.add(new CompiledIfElse());
+        compilers.add(new CompiledVariable());
     }
 
     public CompiledStatement createCompiledStatement(LLNode<Token> currentToken) throws Exception {
-        for (CompiledStatement compiledStatement : _compilers) {
+        for (CompiledStatement compiledStatement : compilers) {
             if (compiledStatement.isMatch(currentToken)) {
                 return compiledStatement.clone();
             }

@@ -9,7 +9,6 @@ import compiler.nodes.Action;
 import compiler.tokenizer.Token;
 import compiler.util.AbrahamLinkedList;
 import compiler.util.LLNode;
-import java.util.LinkedList;
 
 /**
  *
@@ -17,13 +16,14 @@ import java.util.LinkedList;
  */
 public abstract class CompiledStatement{
 
-    private int nextUniqueId = 1;
+    private static int nextUniqueId = 1;
     protected AbrahamLinkedList<Action> compiled = new AbrahamLinkedList<>();
     
     public abstract LLNode<Token> compile(LLNode<Token> currentToken) throws Exception;
     
     public abstract boolean isMatch(LLNode<Token> token);
     
+    @Override
     public abstract CompiledStatement clone();
     
     public AbrahamLinkedList<Action> getCompiled(){

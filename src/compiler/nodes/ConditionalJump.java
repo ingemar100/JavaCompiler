@@ -6,6 +6,8 @@
 package compiler.nodes;
 
 import compiler.util.LLNode;
+import compiler.virtualmachine.NextNodeVisitor;
+import compiler.virtualmachine.VirtualMachine;
 
 /**
  *
@@ -23,5 +25,19 @@ public class ConditionalJump extends Action {
     @Override
     public String toString(){
         return "Conditional Jump - if true: go to " + ifTrue + " else: go to " + ifFalse;
+    }
+
+    @Override
+    public void accept(NextNodeVisitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public LLNode<Action> getJumpToNode(VirtualMachine vm) {
+        if (vm.getReturnValue() == "true"){
+            return ifTrue;
+        }
+        else {
+            return ifFalse;
+        }
     }
 }

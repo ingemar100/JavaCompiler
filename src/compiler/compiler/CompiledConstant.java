@@ -28,7 +28,7 @@ public class CompiledConstant extends CompiledStatement {
     @Override
     public LLNode<Token> compile(LLNode<Token> currentToken) throws Exception {
         String variableName = this.getNextUniqueId();
-        this.compiled.insertLast(new DirectFunctionCall("ConstToReturn", currentToken.getValue().getValue()));
+        this.compiled.insertLast(new DirectFunctionCall("ConstantToReturn", currentToken.getValue().getValue()));
         this.compiled.insertLast(new DirectFunctionCall("ReturnToVariable", variableName));
         return currentToken.getNext();
     }

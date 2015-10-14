@@ -5,12 +5,19 @@
  */
 package compiler.nodes;
 
+import compiler.virtualmachine.NextNodeVisitor;
+
 /**
  *
  * @author Ingemar
  */
 public class DoNothing extends Action {
     public String toString(){
-        return "Doe niets";
+        return "Doe niets: " + super.toString();
+    }
+
+    @Override
+    public void accept(NextNodeVisitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

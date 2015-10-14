@@ -4,6 +4,10 @@ import compiler.tokenizer.Token;
 
 public class AbrahamLinkedList<T> {
 
+    private LLNode<T> first;
+    private LLNode<T> last;
+    private int count;
+
     public AbrahamLinkedList() {
     }
 
@@ -113,8 +117,4 @@ public class AbrahamLinkedList<T> {
     public int getCount() {
         return this.count;
     }
-
-    private LLNode<T> first;
-    private LLNode<T> last;
-    private int count;
 }

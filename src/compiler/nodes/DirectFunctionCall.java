@@ -5,6 +5,10 @@
  */
 package compiler.nodes;
 
+import compiler.virtualmachine.NextNodeVisitor;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Ingemar
@@ -20,5 +24,18 @@ public class DirectFunctionCall extends AbstractFunctionCall{
     
     public String toString(){
         return "DirectFunctionCall - actie: " + actie + ", waarde: " + waarde; 
+    }
+
+    @Override
+    public void accept(NextNodeVisitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> getParameters() {
+        List l = new ArrayList<String>();
+        l.add(this.actie);
+        l.add(this.waarde);
+        return l;
     }
 }

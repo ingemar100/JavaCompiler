@@ -5,10 +5,12 @@
  */
 package compiler.nodes;
 
+import compiler.virtualmachine.NextNodeVisitor;
+
 /**
  *
  * @author Ingemar
  */
-public class Action {
-    
+public abstract class Action {
+    public abstract void accept(NextNodeVisitor visitor);
 }
