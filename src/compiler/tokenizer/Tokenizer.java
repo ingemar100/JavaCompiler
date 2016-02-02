@@ -7,14 +7,10 @@ package compiler.tokenizer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import compiler.tokenizer.HarrisonFordException;
 import compiler.util.AbrahamLinkedList;
 import compiler.util.LLNode;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.logging.Level;

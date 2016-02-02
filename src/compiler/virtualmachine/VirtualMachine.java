@@ -37,10 +37,10 @@ public class VirtualMachine {
             if (currentNode.getValue() instanceof AbstractFunctionCall) {
                 AbstractFunctionCall actionNode = (AbstractFunctionCall) currentNode.getValue();
                 String name = actionNode.getParameters().get(0);
-                System.out.println(name);
+//                System.out.println(name);
                 commands.get(name).execute(this, actionNode.getParameters());
             } else {
-                System.out.println(currentNode.getValue().toString());
+//                System.out.println(currentNode.getValue().toString());
             }
 
             // Bepaal de volgende node: 
